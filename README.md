@@ -1,4 +1,4 @@
-# TestMongo 
+# Size-Based Bucketing in MongoDB 
 
 This tool populates a MongoDB database with collection that implements size-based bucketing according to this blog post by [Robert Walters:](https://www.mongodb.com/blog/post/time-series-data-and-mongodb-part-2-schema-design-best-practices)
 
