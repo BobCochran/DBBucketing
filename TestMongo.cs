@@ -36,7 +36,7 @@ namespace TestMongo
            var db = client.GetDatabase("itto");
 
            // Work with this collection.
-           var collection = db.GetCollection<BsonDocument>("szbase1");
+           var collection = db.GetCollection<BsonDocument>("szbase2");
 
            /* The below code will generate 0 to n test samples for adding
             * to the document that is generated. So suppose that the value
@@ -61,7 +61,10 @@ namespace TestMongo
          */
         private static void UpdateWithNewTest(IMongoCollection<BsonDocument> collection, string deviceId, TestPayLoad test)
        {
-           var day = "ISODate(\"" + DateTime.UtcNow.Date.ToString("yyyy-MM-dd") + "\")";
+
+        /* Implement suggestion from Robert Walters: let the driver handle the date natively */
+ 
+           var day = DateTime.UtcNow.Date;
 
             var filter = "{'deviceid': '" + deviceId + "', nsamples: {$lt: 3}, day: " + day + "}";
 
