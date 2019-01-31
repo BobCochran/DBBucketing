@@ -66,7 +66,7 @@ namespace TestMongo
  
            var myday = new BsonDocument { { "day", DateTime.UtcNow.Date } };
 
-            var filter = "{'deviceid': '" + deviceId + "', nsamples: {$lt: 3}, " + myday + "}";
+            var filter = new BsonDocument { { "deviceid", deviceId, "nsamples", 0, myday } };
 
           var update = Builders<BsonDocument>.Update
                .Inc("nsamples", 1)
