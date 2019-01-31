@@ -64,7 +64,7 @@ namespace TestMongo
 
         /* Implement suggestion from Robert Walters: let the driver handle the date natively */
  
-           var day = DateTime.UtcNow.Date;
+           var day = new BsonDocument( { DateTime.UtcNow.Date } );
 
             var filter = "{'deviceid': '" + deviceId + "', nsamples: {$lt: 3}, day: " + day + "}";
 
