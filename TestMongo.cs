@@ -70,9 +70,11 @@ namespace TestMongo
 
            Console.WriteLine("The date is " + DateTime.UtcNow.Date );
 
+            var minTime  = (int)Math.Truncate(DateTime.UtcNow.TimeOfDay.TotalSeconds);
+
             var data1 = Builders<BsonDocument>.Update.Set( "deviceid", deviceId)
                   .Inc( "nsamples", 1 )
-                  .Min( "first", test.time )
+                  .Min( "first", minTime )
                   .Set( "day", DateTime.UtcNow.Date)
                   .Push( "tests", test);
 
