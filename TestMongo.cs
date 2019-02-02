@@ -79,6 +79,7 @@ namespace TestMongo
             var data1 = Builders<BsonDocument>.Update.Set( "deviceid", deviceId)
                   .Inc( "nsamples", 1 )
                   .Min( "first", theMinTime )
+                  .Max( "latest", theMinTime )
                   .Set( "day", DateTime.UtcNow.Date)
                   .Push( "tests", test);
 
@@ -86,12 +87,6 @@ namespace TestMongo
 
             var filter3 = builder.Eq("deviceid", deviceId) & builder.Lt("nsamples", 3);
  
-          var update = Builders<BsonDocument>.Update
-               .Inc("nsamples", 1)
-               .Min("first", "test.time")
-               .Max("latest", "test.time")
-               .Push("tests", test);
-
             /* IMongoCollection(TDocument) UpdateOne method
              * (IClientSessionHandle, FilterDefinition(TDocument), 
              * UpdateDefinition(TDocument),
