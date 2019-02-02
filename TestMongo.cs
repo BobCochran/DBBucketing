@@ -64,6 +64,8 @@ namespace TestMongo
 
         /* Implement suggestion from Robert Walters: let the driver handle the date natively */
  
+           Console.WriteLine("\nThe deviceid is " + deviceId);
+
            var myday = new BsonDocument { { "day", DateTime.UtcNow.Date } };
 
             var data1 = new BsonDocument { { "deviceid", deviceId }, { "nsamples", 0 }, { "day", DateTime.UtcNow.Date } };
