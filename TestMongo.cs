@@ -66,22 +66,27 @@ namespace TestMongo
  
            var myday = new BsonDocument { { "day", DateTime.UtcNow.Date } };
 
-            var filter = new BsonDocument { { "deviceid", deviceId, "nsamples", 0, myday } };
 
+            var data1 = new BsonDocument { { "deviceid", deviceId, "nsamples", 0, myday } };
+
+            var builder = Builders<BsonDocument>.Filter;
+
+            var filter3 = builder.Eq("deviceid", deviceId) & builder.Lt("nsamples", 3);
+ 
           var update = Builders<BsonDocument>.Update
                .Inc("nsamples", 1)
                .Min("first", "test.time")
                .Max("latest", "test.time")
                .Push("tests", test);
 
-            Console.WriteLine(value: "Update Renderer : " + update.Render(collection.DocumentSerializer, collection.Settings.SerializerRegistry));
+            // Console.WriteLine(value: "Update Renderer : " + update.Render(collection.DocumentSerializer, collection.Settings.SerializerRegistry));
 
             /* IMongoCollection(TDocument) UpdateOne method
              * (IClientSessionHandle, FilterDefinition(TDocument), 
              * UpdateDefinition(TDocument),
              * UpdateOptions, CancellationToken)
              */ 
-            collection.UpdateOne(filter, update, new UpdateOptions() { IsUpsert = true });
+            collection.UpdateOne(filter3, data1, new UpdateOptions() { IsUpsert = true });
 
 
         }
