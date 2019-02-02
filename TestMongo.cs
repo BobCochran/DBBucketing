@@ -36,7 +36,7 @@ namespace TestMongo
            var db = client.GetDatabase("itto");
 
            // Work with this collection.
-           var collection = db.GetCollection<BsonDocument>("szbase4");
+           var collection = db.GetCollection<BsonDocument>("szbase5");
 
            /* The below code will generate 0 to n test samples for adding
             * to the document that is generated. So suppose that the value
