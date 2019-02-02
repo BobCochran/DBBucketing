@@ -36,7 +36,7 @@ namespace TestMongo
            var db = client.GetDatabase("itto");
 
            // Work with this collection.
-           var collection = db.GetCollection<BsonDocument>("szbase2");
+           var collection = db.GetCollection<BsonDocument>("szbase3");
 
            /* The below code will generate 0 to n test samples for adding
             * to the document that is generated. So suppose that the value
@@ -68,8 +68,10 @@ namespace TestMongo
 
            var myday = new BsonDocument { { "day", DateTime.UtcNow.Date } };
 
-            var data1 = Builders<BsonDocument>.Update.Set( "deviceid", deviceId).Set( "nsamples", 0 ).Set( "day", DateTime.UtcNow.Date);
-            //var data1 = new BsonDocument { "$set", new BsonDocument { { "deviceid", deviceId }, { "nsamples", 0 }, { "day", DateTime.UtcNow.Date } } };
+            var data1 = Builders<BsonDocument>.Update.Set( "deviceid", deviceId)
+                  .Set( "nsamples", 1 )
+                  .Set( "day", DateTime.UtcNow.Date)
+                  .Set( "test", test);
 
             var builder = Builders<BsonDocument>.Filter;
 
