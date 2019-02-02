@@ -72,6 +72,7 @@ namespace TestMongo
 
             var data1 = Builders<BsonDocument>.Update.Set( "deviceid", deviceId)
                   .Inc( "nsamples", 1 )
+                  .Min( "first", test.time )
                   .Set( "day", DateTime.UtcNow.Date)
                   .Push( "tests", test);
 
