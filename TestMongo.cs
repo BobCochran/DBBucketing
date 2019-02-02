@@ -38,6 +38,10 @@ namespace TestMongo
            // Work with this collection.
            var collection = db.GetCollection<BsonDocument>("szbase5");
 
+           // Set up the time now in seconds.
+
+           var minTime  = (int)Math.Truncate(DateTime.UtcNow.TimeOfDay.TotalSeconds);
+
            /* The below code will generate 0 to n test samples for adding
             * to the document that is generated. So suppose that the value
             * of the field 'nsamples' is set to 3, and the for loop below loops
@@ -48,7 +52,7 @@ namespace TestMongo
             */ 
             for (var i = 0; i < 4; i++)
            {
-               UpdateWithNewTest(collection, "toto", new TestPayLoad() { Test = i });
+               UpdateWithNewTest(collection, "toto", new TestPayLoad() { Test = i }, minTime);
                // Thread.Sleep(100); // to go slower
            }
        }
@@ -59,7 +63,7 @@ namespace TestMongo
          * use case: it has no provision for updating an existing document inside 
          * a collection.
          */
-        private static void UpdateWithNewTest(IMongoCollection<BsonDocument> collection, string deviceId, TestPayLoad test)
+        private static void UpdateWithNewTest(IMongoCollection<BsonDocument> collection, string deviceId, TestPayLoad test, int theMinTime)
        {
 
         /* Implement suggestion from Robert Walters: let the driver handle the date natively */
@@ -70,11 +74,11 @@ namespace TestMongo
 
            Console.WriteLine("The date is " + DateTime.UtcNow.Date );
 
-            var minTime  = (int)Math.Truncate(DateTime.UtcNow.TimeOfDay.TotalSeconds);
+           Console.WriteLine("The time in seconds is " + theMinTime );
 
             var data1 = Builders<BsonDocument>.Update.Set( "deviceid", deviceId)
                   .Inc( "nsamples", 1 )
-                  .Min( "first", minTime )
+                  .Min( "first", theMinTime )
                   .Set( "day", DateTime.UtcNow.Date)
                   .Push( "tests", test);
 
@@ -87,8 +91,6 @@ namespace TestMongo
                .Min("first", "test.time")
                .Max("latest", "test.time")
                .Push("tests", test);
-
-            // Console.WriteLine(value: "Update Renderer : " + update.Render(collection.DocumentSerializer, collection.Settings.SerializerRegistry));
 
             /* IMongoCollection(TDocument) UpdateOne method
              * (IClientSessionHandle, FilterDefinition(TDocument), 
