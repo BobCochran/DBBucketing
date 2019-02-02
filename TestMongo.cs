@@ -68,7 +68,8 @@ namespace TestMongo
 
            var myday = new BsonDocument { { "day", DateTime.UtcNow.Date } };
 
-            var data1 = new BsonDocument { "$set", new BsonDocument { { "deviceid", deviceId }, { "nsamples", 0 }, { "day", DateTime.UtcNow.Date } } };
+            var data1 = Builders<BsonDocument>.Update.Set( "deviceid", deviceId).Set( "nsamples", 0 ).Set( "day", DateTime.UtcNow.Date);
+            //var data1 = new BsonDocument { "$set", new BsonDocument { { "deviceid", deviceId }, { "nsamples", 0 }, { "day", DateTime.UtcNow.Date } } };
 
             var builder = Builders<BsonDocument>.Filter;
 
