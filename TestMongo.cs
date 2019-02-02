@@ -36,7 +36,7 @@ namespace TestMongo
            var db = client.GetDatabase("itto");
 
            // Work with this collection.
-           var collection = db.GetCollection<BsonDocument>("szbase6");
+           var collection = db.GetCollection<BsonDocument>("szbase7");
 
            // Set up the time now in seconds.
 
@@ -72,7 +72,7 @@ namespace TestMongo
 
            var myday = new BsonDocument { { "day", DateTime.UtcNow.Date } };
 
-           Console.WriteLine("The date is " + DateTime.UtcNow.Date );
+           Console.WriteLine("The date is " + DateTime.UtcNow );
 
            Console.WriteLine("The time in seconds is " + theMinTime );
 
