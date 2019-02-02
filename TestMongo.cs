@@ -36,7 +36,7 @@ namespace TestMongo
            var db = client.GetDatabase("itto");
 
            // Work with this collection.
-           var collection = db.GetCollection<BsonDocument>("szbase5");
+           var collection = db.GetCollection<BsonDocument>("szbase6");
 
            // Set up the time now in seconds.
 
