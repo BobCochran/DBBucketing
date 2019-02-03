@@ -8,12 +8,20 @@ using MongoDB.Driver;
  * (https://www.mongodb.com/blog/post/time-series-data-and-mongodb-part-2-schema-design-best-practices) 
  * by Robert Walters. September 13, 2018.
  *
+ * This implementation of TestMongo.cs results because of a post made by Ric Itto to the 
+ * 'mongodb-users' mailing list on Google Groups. Mr. Itto implemented size-based
+ * bucketing based on the Walters article. However, Itto had trouble posting correct
+ * values to the "first" and "latest" fields in his code, and he requested help
+ * with solving this problem.
+ *
  * This code changed by Bob Cochran (r2cochran2@gmail.com, BobCochran on GitHub) 
  * to do the following:
  *
  * 1. Shorten database and collection names.
  * 2. Reduce the number of samples bucketed within the document, 
  *    so that output collection documents can be studied more easily.
+ * 3. Convert the field "day" to use a true Date() object.
+ * 4. Correct the values of the "first" and "latest" fields.
  *
  */
 namespace TestMongo
@@ -36,7 +44,7 @@ namespace TestMongo
            var db = client.GetDatabase("itto");
 
            // Work with this collection.
-           var collection = db.GetCollection<BsonDocument>("szbase7");
+           var collection = db.GetCollection<BsonDocument>("szbase8");
 
            // Set up the time now in seconds.
 
@@ -74,13 +82,14 @@ namespace TestMongo
 
            Console.WriteLine("The date is " + DateTime.UtcNow );
 
-           Console.WriteLine("The time in seconds is " + theMinTime );
+           Console.WriteLine("The time in seconds for today is " + theMinTime );
 
             var data1 = Builders<BsonDocument>.Update.Set( "deviceid", deviceId)
                   .Inc( "nsamples", 1 )
                   .Min( "first", theMinTime )
                   .Max( "latest", theMinTime )
-                  .Set( "day", DateTime.UtcNow.Date)
+            /* Use a full UTC date and time, including the correct time value */
+                  .Set( "day", DateTime.UtcNow)
                   .Push( "tests", test);
 
             var builder = Builders<BsonDocument>.Filter;
