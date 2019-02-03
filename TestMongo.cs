@@ -22,6 +22,7 @@ using MongoDB.Driver;
  *    so that output collection documents can be studied more easily.
  * 3. Convert the field "day" to use a true Date() object.
  * 4. Correct the values of the "first" and "latest" fields.
+ * 5. Use epoch time for the number of seconds.
  *
  */
 namespace TestMongo
@@ -30,7 +31,8 @@ namespace TestMongo
     class TestPayLoad
    {
        public int Test { get; set; }
-       public int Time { get; set; } = (int)Math.Truncate(DateTime.UtcNow.TimeOfDay.TotalSeconds);
+       /* Implement suggestion from Robert Walters: use epoch time for the test samples */
+       public int Time { get; set; } = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds;
    }
 
     class Program
@@ -44,11 +46,11 @@ namespace TestMongo
            var db = client.GetDatabase("itto");
 
            // Work with this collection.
-           var collection = db.GetCollection<BsonDocument>("szbase8");
+           var collection = db.GetCollection<BsonDocument>("szbase9");
 
-           // Set up the time now in seconds.
+           // Implement use of epoch time now in seconds.
 
-           var minTime  = (int)Math.Truncate(DateTime.UtcNow.TimeOfDay.TotalSeconds);
+           int minTime = (int)(DateTime.UtcNow - new DateTime(1970, 1, 1)).TotalSeconds; 
 
            /* The below code will generate 0 to n test samples for adding
             * to the document that is generated. So suppose that the value
